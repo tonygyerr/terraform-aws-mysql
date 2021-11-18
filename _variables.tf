@@ -174,7 +174,7 @@ variable "monitoring_interval" {
 variable "monitoring_role_arn" {
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. Must be specified if monitoring_interval is non-zero."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "monitoring_role_name" {
@@ -453,7 +453,7 @@ variable "performance_insights_kms_key_id" {
 variable "max_allocated_storage" {
   description = "Specifies the value for Storage Autoscaling"
   type        = number
-  default     = 0
+  default     = ""
 }
 
 variable "ca_cert_identifier" {
