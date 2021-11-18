@@ -453,7 +453,7 @@ variable "performance_insights_kms_key_id" {
 variable "max_allocated_storage" {
   description = "Specifies the value for Storage Autoscaling"
   type        = number
-  default     = ""
+  default     = 0
 }
 
 variable "ca_cert_identifier" {
