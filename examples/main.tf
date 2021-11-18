@@ -13,7 +13,7 @@ locals {
 
 
 module "db" {
-  source = "../"
+  source = "git::https://github.com/tonygyerr/terraform-aws-mysql.git"
 
   vpc_id                = var.vpc_id
   iam_enabled           = var.iam_enabled
