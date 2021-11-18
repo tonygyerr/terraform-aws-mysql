@@ -8,7 +8,7 @@ variable "param_name" {
 
 variable "cluster_identifier" {
   description = "cluster_identifier"
-  #default     = "api-customer-db-cluster"
+  #default     = ""
 }
 
 variable "environment" {}
@@ -19,7 +19,7 @@ variable "kms_alias_aurora" {
 
 variable "instance_identifier" {
   description = "Database instance identifier"
-  #default     = "api-customer-db-aurora-sql-rds"
+  #default     = ""
 }
 
 variable "secret_name" {
@@ -49,6 +49,12 @@ variable "identifier" {
 
 variable "allocated_storage" {
   description = "The allocated storage in gigabytes"
+  type        = string
+  default     = null
+}
+
+variable "max_allocated_storage" {
+  description = "The maximum allocated storage in gigabytes"
   type        = string
   default     = null
 }
@@ -109,6 +115,12 @@ variable "engine" {
 
 variable "engine_version" {
   description = "The engine version to use"
+  type        = string
+  default     = null
+}
+
+variable "major_engine_version" {
+  description = "The major engine version to use"
   type        = string
   default     = null
 }
@@ -230,13 +242,13 @@ variable "monitoring_interval" {
 variable "monitoring_role_arn" {
   description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. Must be specified if monitoring_interval is non-zero."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "monitoring_role_name" {
   description = "Name of the IAM role which will be created when create_monitoring_role is enabled."
   type        = string
-  default     = "rds-monitoring-role"
+  default     = ""
 }
 
 variable "monitoring_role_description" {
@@ -349,12 +361,6 @@ variable "performance_insights_kms_key_id" {
   description = "The ARN for the KMS key to encrypt Performance Insights data."
   type        = string
   default     = null
-}
-
-variable "max_allocated_storage" {
-  description = "Specifies the value for Storage Autoscaling"
-  type        = number
-  default     = 0
 }
 
 variable "ca_cert_identifier" {

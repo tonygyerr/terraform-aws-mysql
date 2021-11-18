@@ -1,5 +1,5 @@
 resource "random_id" "rds" {
-  byte_length = 20 * 3 / 4
+  byte_length = 10 * 3 / 4
 }
 
 resource "aws_secretsmanager_secret" "rds" {

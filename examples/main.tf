@@ -1,50 +1,53 @@
+locals {
+  name   = var.name
+  region = "us-east-1"
+  tags = {
+    Owner       = "user"
+    Environment = "test"
+    Region      = "us-east-1"
+    Owner       = "app"
+    CostCenter  = "app"
+    Name        = "myapp-rds-mysql-test"
+  }
+}
+
+
 module "db" {
   source = "git::https://github.com/tonygyerr/terraform-aws-mysql.git"
 
-  vpc_id                = var.vpc_id
-  iam_enabled           = var.iam_enabled
-  environment           = var.environment
-  param_name            = var.param_name
-  instance_identifier   = var.instance_identifier
-  cluster_identifier    = var.cluster_identifier
-  secret_name           = var.secret_name
-  private_db_subnet_ids = var.private_db_subnet_ids
-  kms_alias_aurora      = var.kms_alias_aurora
-  role                  = var.role
-  db_port               = var.db_port
-
-  identifier           = local.name
-  engine               = var.engine
-  engine_version       = var.engine_version
-  family               = var.family
-  major_engine_version = "5.0"         #"8.0"      # DB option group
-  instance_class       = "db.t3.small" #"db.t3.large"
-
-  allocated_storage     = 20
-  max_allocated_storage = 100
-  storage_encrypted     = false
-
-  name     = var.initial_db
-  username = var.username
-  password = var.password
-  port     = 3306
-
-  multi_az               = true
-  subnet_ids             = var.private_db_subnet_ids
-  vpc_security_group_ids = var.vpc_security_group_ids
-
-  maintenance_window              = "Mon:00:00-Mon:03:00"
-  backup_window                   = "03:00-06:00"
-  enabled_cloudwatch_logs_exports = ["general"]
-
-  backup_retention_period = 0
-  skip_final_snapshot     = true
-  deletion_protection     = false
-
-  performance_insights_enabled          = true
-  performance_insights_retention_period = 7
-  create_monitoring_role                = true
-  monitoring_interval                   = 60
+  private_db_subnet_ids  = ["subnet-*********123", "subnet-*********456", "subnet-*********789"] #enter database subnet ids for the application subnets that will need access to database
+  secret_name            = "RDS-Master_User"
+  vpc_security_group_ids = ["sg-*********123"]
+  vpc_id                 = "vpc-*********123"
+  kms_alias_aurora       = "myappdb-rds-kms-key"
+  allocated_storage                   = 5
+  backup_window                       = "03:00-06:00"
+  cluster_identifier                  = "myapp-test-cluster"
+  cluster_version                     = "mysql5.7"
+  create_monitoring_role              = true
+  db_port                             = "3306"
+  deletion_protection                 = true
+  engine                              = "mysql"
+  engine_version                      = "5.7.33"
+  environment                         = "test"
+  family                              = "mysql5.7"
+  iam_database_authentication_enabled = true
+  iam_enabled                         = "true"
+  identifier                          = "myappnamedb"
+  initial_db                          = "myapp_service_db"
+  instance_class                      = "db.m3.medium"
+  instance_identifier                 = "myapp-mysql58-test"
+  maintenance_window                  = "Mon:00:00-Mon:03:00"
+  major_engine_version                = "5.7"
+  monitoring_interval                 = "30"
+  monitoring_role_name                = "myapp-rds-monitoring-role" #"AmazonRDSEnhancedMonitoringRole"
+  name                                = "myapp-mysql"
+  password                            = aws_secretsmanager_secret_version.rds.secret_string
+  param_name                          = "my_rds_param"
+  port                                = "3306"
+  role                                = "myapp-rds-monitoring-role"
+  username                            = "myapp_test_user"
+  tags                                = var.tags
 
   parameters = [
     {
@@ -57,7 +60,23 @@ module "db" {
     }
   ]
 
-  tags = local.tags
+  options = [
+    {
+      option_name = "MARIADB_AUDIT_PLUGIN"
+
+      option_settings = [
+        {
+          name  = "SERVER_AUDIT_EVENTS"
+          value = "CONNECT"
+        },
+        {
+          name  = "SERVER_AUDIT_FILE_ROTATIONS"
+          value = "37"
+        },
+      ]
+    },
+  ]
+
   db_instance_tags = {
     "Sensitive" = "high"
   }

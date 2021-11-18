@@ -668,7 +668,7 @@ variable "cluster_identifier" {
 
 variable "cluster_version" {
   description = "version of cluster database"
-  default     = "mysql5.7"
+  default     = ""
 }
 
 
