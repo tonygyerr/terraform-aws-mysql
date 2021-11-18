@@ -3,12 +3,12 @@ resource "random_id" "rds" {
 }
 
 resource "aws_secretsmanager_secret" "rds" {
-  name = "${var.environment}-${var.secret_name}"
-  tags = var.tags
+  name                    = "${var.environment}-${var.secret_name}"
+  tags                    = var.tags
   recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "rds" {
-  secret_id = aws_secretsmanager_secret.rds.id
+  secret_id     = aws_secretsmanager_secret.rds.id
   secret_string = random_id.rds.b64_std
 }

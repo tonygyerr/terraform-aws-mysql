@@ -1,7 +1,7 @@
 resource "aws_security_group" "rds" {
   name        = "${var.app_name}-rds-mysql"
   description = "Security group for aurora client"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = var.db_port

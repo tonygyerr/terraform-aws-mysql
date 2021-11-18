@@ -1,3 +1,41 @@
+variable "vpc_id" {
+  type = string
+}
+
+variable "param_name" {
+  type = string
+}
+
+variable "cluster_identifier" {
+  description = "cluster_identifier"
+  #default     = "api-customer-db-cluster"
+}
+
+variable "environment" {}
+
+variable "kms_alias_aurora" {
+  type = string
+}
+
+variable "instance_identifier" {
+  description = "Database instance identifier"
+  #default     = "api-customer-db-aurora-sql-rds"
+}
+
+variable "secret_name" {
+  description = "secret created for rds cluster"
+  type        = string
+}
+
+variable "private_db_subnet_ids" {
+  type = list(any)
+}
+
+variable "iam_enabled" {
+  type = string
+}
+
+
 variable "create" {
   description = "Whether to create this resource or not?"
   type        = bool
@@ -84,7 +122,7 @@ variable "instance_class" {
 variable "name" {
   description = "The DB name to create. If omitted, no database is created initially"
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "username" {
@@ -139,6 +177,12 @@ variable "vpc_security_group_ids" {
   description = "List of VPC security groups to associate"
   type        = list(string)
   default     = []
+}
+
+variable "role" {
+  description = "Role for the rds subnet"
+  type        = string
+  default     = ""
 }
 
 variable "db_subnet_group_name" {
@@ -332,8 +376,24 @@ variable "s3_import" {
 }
 
 
-variable "restore_to_point_in_time" {
-  description = "Restore to a point in time (MySQL is NOT supported)"
-  type        = map(string)
-  default     = null
+# variable "restore_to_point_in_time" {
+#   description = "Restore to a point in time (MySQL is NOT supported)"
+#   type        = map(string)
+#   default     = null
+# }
+
+variable "db_port" {
+  type    = string
+  default = ""
+}
+
+variable "initial_db" {
+  description = "initial table name"
+  default     = ""
+}
+
+variable "family" {
+  description = "The family of the DB parameter group"
+  type        = string
+  default     = ""
 }

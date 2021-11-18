@@ -1,10 +1,4 @@
-locals {
-  is_mssql = element(split("-", var.engine), 0) == "sqlserver"
 
-  monitoring_role_arn = var.create_monitoring_role ? aws_iam_role.enhanced_monitoring[0].arn : var.monitoring_role_arn
-}
-
-# Ref. https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces
 data "aws_partition" "current" {}
 
 resource "random_id" "snapshot_identifier" {
@@ -79,16 +73,16 @@ resource "aws_db_instance" "this" {
   delete_automated_backups = var.delete_automated_backups
 
 
-  dynamic "restore_to_point_in_time" {
-    for_each = var.restore_to_point_in_time != null ? [var.restore_to_point_in_time] : []
+  # dynamic "restore_to_point_in_time" {
+  #   for_each = var.restore_to_point_in_time != null ? [var.restore_to_point_in_time] : []
 
-    content {
-      restore_time                  = lookup(restore_to_point_in_time.value, "restore_time", null)
-      source_db_instance_identifier = lookup(restore_to_point_in_time.value, "source_db_instance_identifier", null)
-      source_dbi_resource_id        = lookup(restore_to_point_in_time.value, "source_dbi_resource_id", null)
-      use_latest_restorable_time    = lookup(restore_to_point_in_time.value, "use_latest_restorable_time", null)
-    }
-  }
+  #   content {
+  #     restore_time                  = lookup(restore_to_point_in_time.value, "restore_time", null)
+  #     source_db_instance_identifier = lookup(restore_to_point_in_time.value, "source_db_instance_identifier", null)
+  #     source_dbi_resource_id        = lookup(restore_to_point_in_time.value, "source_dbi_resource_id", null)
+  #     use_latest_restorable_time    = lookup(restore_to_point_in_time.value, "use_latest_restorable_time", null)
+  #   }
+  # }
 
 
   dynamic "s3_import" {
