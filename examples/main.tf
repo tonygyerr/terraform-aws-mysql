@@ -1,17 +1,3 @@
-# provider "aws" {
-#   region = local.region
-# }
-
-locals {
-  name   = var.name
-  region = "us-east-1"
-  tags = {
-    Owner       = "user"
-    Environment = "test"
-  }
-}
-
-
 module "db" {
   source = "git::https://github.com/tonygyerr/terraform-aws-mysql.git"
 
