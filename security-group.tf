@@ -18,3 +18,21 @@ resource "aws_security_group" "rds" {
   }
 }
 
+resource "aws_security_group_rule" "ingress_rds"{
+  type = "ingress"
+  from_port   = 3306
+  to_port     = 3306
+  protocol    = "tcp"
+  security_group_id = aws_security_group.rds.id
+  source_security_group_id = aws_security_group.rds.id
+}
+
+resource "aws_security_group_rule" "egress" {
+  description       = "Allow all egress traffic"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.rds.id
+  type              = "egress"
+}
