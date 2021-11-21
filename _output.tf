@@ -88,5 +88,4 @@ output "db_instance_master_password" {
 output "db_instance_security_group" {
   description = "The master password"
   value       = aws_security_group.rds.id
-  sensitive   = true
 }
