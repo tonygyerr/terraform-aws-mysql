@@ -21,6 +21,7 @@ module "db" {
   vpc_id                 = "vpc-*********123"
   kms_alias_aurora       = "myappdb-rds-kms-key"
   allocated_storage                   = 5
+  app_name                            = "my-rds"
   backup_window                       = "03:00-06:00"
   cluster_identifier                  = "myapp-test-cluster"
   cluster_version                     = "mysql5.7"
@@ -42,11 +43,12 @@ module "db" {
   monitoring_interval                 = "30"
   monitoring_role_name                = "myapp-rds-monitoring-role" #"AmazonRDSEnhancedMonitoringRole"
   name                                = "myapp-mysql"
-  password                            = aws_secretsmanager_secret_version.rds.secret_string
+  password                            = aws_secretsmanager_secret_version.rds.secret_string #var.password #data.aws_secretsmanager_secret_version.rds.secret_string
   param_name                          = "my_rds_param"
   port                                = "3306"
   role                                = "myapp-rds-monitoring-role"
   username                            = "myapp_test_user"
+  vpc_security_group_ids              = [module.db.db_instance_security_group] #var.vpc_security_group_ids
   tags                                = var.tags
 
   parameters = [
