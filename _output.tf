@@ -84,3 +84,9 @@ output "db_instance_master_password" {
   value       = local.db_instance_master_password
   sensitive   = true
 }
+
+output "db_instance_security_group" {
+  description = "The master password"
+  value       = aws_security_group.rds.id
+  sensitive   = true
+}
