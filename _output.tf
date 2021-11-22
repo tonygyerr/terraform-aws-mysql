@@ -89,3 +89,8 @@ output "db_instance_security_group" {
   description = "The master password"
   value       = aws_security_group.rds.id
 }
+
+output "db_instance_subnet_group_name" {
+  description = "The Database Subnet Group Name"
+  value       = aws_db_subnet_group.rds.name
+}
