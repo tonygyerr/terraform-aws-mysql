@@ -47,6 +47,7 @@ module "db" {
   param_name                          = "my_rds_param"
   port                                = "3306"
   role                                = "myapp-rds-monitoring-role"
+  snapshot_identifier                 = null
   username                            = "myapp_test_user"
   vpc_security_group_ids              = [module.db.db_instance_security_group] #var.vpc_security_group_ids
   tags                                = var.tags
