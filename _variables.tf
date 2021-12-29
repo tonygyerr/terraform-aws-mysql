@@ -1,3 +1,15 @@
+variable "aws_region" {
+  description = "ec2 region for the vpc"
+  type        = string
+  default     = ""
+}
+
+variable "profile" {
+  description = "The name of the aws profile"
+  type        = string
+  default     = ""
+}
+
 variable "identifier" {
   description = "The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier"
   type        = string
