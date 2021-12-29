@@ -22,6 +22,7 @@ module "db" {
   kms_alias_aurora       = "myappdb-rds-kms-key"
   allocated_storage                   = 5
   app_name                            = "my-rds"
+  aws_region                          = "us-east-1"
   backup_window                       = "03:00-06:00"
   cluster_identifier                  = "myapp-test-cluster"
   cluster_version                     = "mysql5.7"
@@ -46,6 +47,7 @@ module "db" {
   password                            = aws_secretsmanager_secret_version.rds.secret_string #var.password #data.aws_secretsmanager_secret_version.rds.secret_string
   param_name                          = "my_rds_param"
   port                                = "3306"
+  profile                             = "default"
   role                                = "myapp-rds-monitoring-role"
   snapshot_identifier                 = null
   username                            = "myapp_test_user"
